@@ -11,6 +11,14 @@ defmodule ComplexTest do
       assert str == "3+j4"
     end
 
+    test "in cartesian form, negative imaginary part" do
+      comp = Complex.from_cartesian(3, -4)
+
+      str = inspect comp, custom_options: [complex: :cartesian]
+
+      assert str == "3-j4"
+    end
+
     test "in polar form" do
       comp = Complex.from_polar(3, 1.3)
 
