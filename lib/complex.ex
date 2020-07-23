@@ -332,6 +332,57 @@ defmodule Complex do
     )
   end
 
+  @doc """
+  Find the sine of a complex number.
+
+  ## Example
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sin() |> inspect()
+      "-0.9092974268256817-j1.0192657827055095e-16"
+  """
+  def sin(z) do
+    re = real(z)
+    im = imaginary(z)
+
+    from_cartesian(
+      :math.sin(re) * :math.cosh(im),
+      :math.cos(re) * :math.sinh(im)
+    )
+  end
+
+  @doc """
+  Find the cosine of a complex number.
+
+  ## Example
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.cos() |> inspect()
+      "-0.4161468365471424+j2.2271363664699914e-16"
+  """
+  def cos(z) do
+    re = real(z)
+    im = imaginary(z)
+
+    from_cartesian(
+      :math.cos(re) * :math.cosh(im),
+      -:math.sin(re) * :math.sinh(im)
+    )
+  end
+
+  @doc """
+  Find the tangent of a complex number.
+
+  ## Example
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.tan() |> inspect()
+      "2.185039863261519+j1.4143199004457915e-15"
+  """
+  def tan(z) do
+    divide(
+      sin(z),
+      cos(z)
+    )
+  end
+
   @doc false
   def inspect(comp, opts) do
     case Keyword.get(opts.custom_options, :complex, :cartesian) do
