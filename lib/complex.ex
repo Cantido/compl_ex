@@ -24,6 +24,7 @@ defmodule Complex do
 
   - `from_cartesian/2`
   - `from_polar/2`
+  - `from_polar_degrees/2`
   - `real/1`
   - `imaginary/1`
   - `magnitude/1`
@@ -131,6 +132,26 @@ defmodule Complex do
 
   def from_polar(magnitude, angle) when is_number(magnitude) and angle == 0 do
     magnitude
+  end
+
+  @doc """
+  Create a complex number from its polar coordinates, with the given angle in degrees.
+
+  Note that errors will be introduced by the internal conversion to radians.
+
+  ## Examples
+
+      iex> comp = Complex.from_polar_degrees(120, 60)
+      ...> Complex.magnitude(comp)
+      120
+      iex> Complex.angle_degrees(comp)
+      59.99999999999999
+  """
+  def from_polar_degrees(magnitude, angle) when is_number(magnitude) and magnitude >= 0 and is_number(angle) do
+    %Complex.Polar{
+      magnitude: magnitude,
+      angle: (angle * :math.pi() / 180)
+    }
   end
 
   @doc """
