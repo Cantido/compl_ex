@@ -290,6 +290,21 @@ defmodule Complex do
   end
 
   @doc """
+  Find the natural log of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.ln() |> inspect()
+      "0.6931471805599453+j3.141592653589793"
+  """
+  def ln(z) do
+    from_cartesian(
+      :math.log(magnitude(z)),
+      :math.atan2(imaginary(z), real(z))
+    )
+  end
+
+  @doc """
   Add two complex numbers.
 
   ## Examples
