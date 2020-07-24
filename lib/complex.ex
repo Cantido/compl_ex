@@ -21,8 +21,24 @@ defmodule Complex do
       1
 
   You can do simple arithmetic on complex numbers with `add/2`, `subtract/2`, `multiply/2`, and `divide/2`.
-  You can invert a complex number with `invert/1`,
-  and find a number's conjugate with `conjugate/1`.
+
+  ### Simple creation and manipulation functions
+
+  - `from_cartesian/2`
+  - `from_polar/2`
+  - `real/1`
+  - `imaginary/1`
+  - `magnitude/1`
+  - `angle/1`
+
+  ### Arithmetic functions
+
+  - `add/2`
+  - `subtract/2`
+  - `multiply/2`
+  - `divide/2`
+  - `invert/1`
+  - `conjugate/1`
 
   All arithmetic functions in this library take regular Elixir numbers
   in place of complex numbers, so you don't have to wrap real numbers to include
@@ -30,6 +46,24 @@ defmodule Complex do
 
       iex> Complex.from_cartesian(3, 4) |> Complex.add(2) |> inspect()
       "5+j4"
+
+  ### Trigonometric functions
+
+  - `sin/1`
+  - `cos/1`
+  - `tan/1`
+  - `csc/1`
+  - `sec/1`
+  - `cot/1`
+
+  ### Inverse trigonometric functions
+
+  - `asin/1`
+  - `acos/1`
+  - `atan/1`
+  - `acsc/1`
+  - `asec/1`
+  - `acot/1`
 
   ## Inspecting numbers
 
