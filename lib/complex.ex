@@ -101,6 +101,13 @@ defmodule Complex do
   end
 
   @doc """
+  Get the imaginary number *i*.
+  """
+  def i do
+    from_cartesian(0, 1)
+  end
+
+  @doc """
   Get the real part of a complex number.
 
   ## Examples
@@ -207,6 +214,21 @@ defmodule Complex do
 
   def invert(comp) do
     divide(1, comp)
+  end
+
+  @doc """
+  Negate a complex number.
+
+  ## Examples
+
+      iex> Complex.from_cartesian(2, 2) |> Complex.negate() |> inspect()
+      "-2-j2"
+  """
+  def negate(z) do
+    from_cartesian(
+      -real(z),
+      -imaginary(z)
+    )
   end
 
   @doc """
@@ -405,6 +427,20 @@ defmodule Complex do
   end
 
   @doc """
+  Find the arcsine (inverse sine) if a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.asin() |> inspect()
+      "-1.5707963267948974+j1.3169578969248164"
+  """
+  def asin(z) do
+    ln_t1 = multiply(i(), z)
+    ln_t2 = sqrt(subtract(1, multiply(z, z)))
+    multiply(negate(i()), ln(add(ln_t1, ln_t2)))
+  end
+
+  @doc """
   Find the cosine of a complex number.
 
   ## Example
@@ -423,6 +459,18 @@ defmodule Complex do
   end
 
   @doc """
+  Find the arccosine (inverse cosine) of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.acos() |> inspect()
+      "3.141592653589794-j1.3169578969248164"
+  """
+  def acos(z) do
+    subtract(:math.pi() / 2, asin(z))
+  end
+
+  @doc """
   Find the tangent of a complex number.
 
   ## Example
@@ -436,6 +484,97 @@ defmodule Complex do
       cos(z)
     )
   end
+
+  @doc """
+  Find the arctangent (inverse tangent) of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.atan() |> inspect()
+      "-1.1071487177940904+j0.0"
+  """
+  def atan(z) do
+    multiply(
+      divide(i(), 2),
+      subtract(
+        ln(subtract(1, multiply(i(), z))),
+        ln(add(1, multiply(i(), z)))
+      )
+    )
+  end
+
+  @doc """
+  Find the cosecant of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.csc() |> inspect()
+      "-1.0997501702946164+j1.2327514463765779e-16"
+  """
+  def csc(z) do
+    divide(1, sin(z))
+  end
+
+  @doc """
+  Find the arccosecant (inverse cosecant) of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.acsc() |> inspect()
+      "-0.5235987755982988+j0.0"
+  """
+  def acsc(z) do
+    asin(divide(1, z))
+  end
+
+  @doc """
+  Find the secant of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sec() |> inspect()
+      "-2.402997961722381-j1.2860374461837126e-15"
+  """
+  def sec(z) do
+    divide(1, cos(z))
+  end
+
+  @doc """
+  Find the arcsecant (inverse secant) of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.asec() |> inspect()
+      "2.0943951023931953+j0.0"
+  """
+  def asec(z) do
+    acos(divide(1, z))
+  end
+
+  @doc """
+  Find the cotantent of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.cot() |> inspect()
+      "0.45765755436028577-j2.962299212953233e-16"
+  """
+  def cot(z) do
+    divide(cos(z), sin(z))
+  end
+
+  @doc """
+  Find the arccotangent (inverse cotangent) of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.acot() |> inspect()
+      "-0.46364760900080615-j9.71445146547012e-17"
+  """
+  def acot(z) do
+    atan(divide(1, z))
+  end
+
 
   @doc false
   def inspect(comp, opts) do
