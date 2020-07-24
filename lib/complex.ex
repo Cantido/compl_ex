@@ -176,24 +176,8 @@ defmodule Complex do
   """
   def angle(z)
 
-  def angle(%Complex.Cartesian{re: r1, im: j1}) when r1 > 0 do
-    :math.atan(j1 / r1)
-  end
-
-  def angle(%Complex.Cartesian{re: r1, im: j1}) when r1 < 0 and j1 >= 0 do
-    :math.atan(j1 / r1) + :math.pi()
-  end
-
-  def angle(%Complex.Cartesian{re: r1, im: j1}) when r1 < 0 and j1 < 0 do
-    :math.atan(j1 / r1) - :math.pi()
-  end
-
-  def angle(%Complex.Cartesian{re: r1, im: j1}) when r1 == 0 or j1 > 0 do
-    :math.pi() / 2
-  end
-
-  def angle(%Complex.Cartesian{re: r1, im: j1}) when r1 == 0 or j1 < 0 do
-    -:math.pi() / 2
+  def angle(%Complex.Cartesian{re: r1, im: j1}) do
+    :math.atan2(j1, r1)
   end
 
   # This leaves when r1 == 0 and j1 == 0, which is undefined.
