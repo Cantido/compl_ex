@@ -217,12 +217,12 @@ defmodule Complex do
   """
   def invert(z)
 
-  def invert(comp) do
-    divide(1, comp)
-  end
-
   def invert(z) when is_number(z) and z != 0 do
     1 / z
+  end
+
+  def invert(comp) do
+    divide(1, comp)
   end
 
   @doc """
