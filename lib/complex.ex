@@ -20,9 +20,7 @@ defmodule Complex do
       iex> Complex.angle(comp)
       1
 
-  You can do simple arithmetic on complex numbers with `add/2`, `subtract/2`, `multiply/2`, and `divide/2`.
-
-  ### Simple creation and manipulation functions
+  ## Simple creation and manipulation functions
 
   - `from_cartesian/2`
   - `from_polar/2`
@@ -31,7 +29,7 @@ defmodule Complex do
   - `magnitude/1`
   - `angle/1`
 
-  ### Arithmetic functions
+  ## Arithmetic functions
 
   - `add/2`
   - `subtract/2`
@@ -47,7 +45,7 @@ defmodule Complex do
       iex> Complex.from_cartesian(3, 4) |> Complex.add(2) |> inspect()
       "5+j4"
 
-  ### Trigonometric functions
+  ## Trigonometric functions
 
   - `sin/1`
   - `cos/1`
@@ -56,7 +54,7 @@ defmodule Complex do
   - `sec/1`
   - `cot/1`
 
-  ### Inverse trigonometric functions
+  ## Inverse trigonometric functions
 
   - `asin/1`
   - `acos/1`
