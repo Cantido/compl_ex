@@ -289,6 +289,23 @@ defmodule Complex do
   end
 
   @doc """
+  Find the value of a complex number raised to the value of *e*.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.exp() |> inspect()
+      "0.1353352832366127+j3.3147584285483636e-17"
+  """
+  def exp(z) do
+    exp = :math.exp(real(z))
+    im = imaginary(z)
+    from_cartesian(
+      exp * :math.cos(im),
+      exp * :math.sin(im)
+    )
+  end
+
+  @doc """
   Add two complex numbers.
 
   ## Examples
