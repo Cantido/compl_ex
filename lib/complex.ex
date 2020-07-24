@@ -28,6 +28,7 @@ defmodule Complex do
   - `imaginary/1`
   - `magnitude/1`
   - `angle/1`
+  - `angle_degrees/1`
 
   ## Arithmetic functions
 
@@ -219,15 +220,24 @@ defmodule Complex do
     :math.atan2(j1, r1)
   end
 
-  # This leaves when r1 == 0 and j1 == 0, which is undefined.
-  # I will leave it as a match error.
-
   def angle(%Complex.Polar{angle: angle}) do
     angle
   end
 
   def angle(z) when is_number(z) and z != 0 do
     0
+  end
+
+  @doc """
+  Get the angle of a complex number, in degrees.
+
+  ## Examples
+
+      iex> Complex.from_polar(5, 1) |> Complex.angle_degrees()
+      57.29577951308232
+  """
+  def angle_degrees(z) do
+    Complex.angle(z) * 180 / :math.pi()
   end
 
   @doc """
@@ -634,7 +644,7 @@ defmodule Complex do
   defp inspect_polar(comp, opts) do
     angle = case Keyword.get(opts.custom_options, :angle, :radians) do
       :radians -> to_doc(Complex.angle(comp), opts)
-      :degrees -> concat([to_doc(Complex.angle(comp) * 180 / :math.pi, opts), "°"])
+      :degrees -> concat([to_doc(Complex.angle_degrees(comp), opts), "°"])
     end
 
     concat([
