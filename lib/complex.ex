@@ -251,6 +251,44 @@ defmodule Complex do
   end
 
   @doc """
+  Find the square root of a complex number.
+
+  ## Example
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sqrt() |> inspect()
+      "8.659560562354934e-17+j1.4142135623730951"
+  """
+  def sqrt(z)
+
+  def sqrt(%Complex.Polar{magnitude: mag, angle: angle}) do
+    from_polar(
+      :math.sqrt(mag),
+      angle/2
+    )
+  end
+
+  def sqrt(%Complex.Cartesian{re: re, im: im} = z) do
+    result_re = :math.sqrt((magnitude(z) + re) / 2)
+    result_im = :math.sqrt((magnitude(z) - re) / 2)
+
+    if im >= 0 do
+      from_cartesian(
+        result_re,
+        result_im
+      )
+    else
+      from_cartesian(
+        result_re,
+        -result_im
+      )
+    end
+  end
+
+  def sqrt(z) when is_number(z) do
+    :math.sqrt(z)
+  end
+
+  @doc """
   Add two complex numbers.
 
   ## Examples
