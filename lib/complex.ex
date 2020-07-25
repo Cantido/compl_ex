@@ -382,6 +382,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.ln() |> inspect()
       "0.6931471805599453+j3.141592653589793"
   """
+  def ln(z)
+
+  def ln(z) when is_number(z) do
+    :math.log(z)
+  end
+
   def ln(z) do
     from_cartesian(
       :math.log(magnitude(z)),
@@ -497,6 +503,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.asin() |> inspect()
       "-1.5707963267948974+j1.3169578969248164"
   """
+  def asin(z)
+
+  def asin(z) when is_number(z) do
+    :math.asin(z)
+  end
+
   def asin(z) do
     ln_t1 = multiply(i(), z)
     ln_t2 = sqrt(subtract(1, multiply(z, z)))

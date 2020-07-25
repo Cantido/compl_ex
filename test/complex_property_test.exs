@@ -3,13 +3,13 @@ defmodule ComplexPropertyTest do
   use ExUnitProperties
 
   def complex_cartesian() do
-    map({float(), float()}, fn {re, im} ->
+    map({integer(-100..100), integer(-100..100)}, fn {re, im} ->
       Complex.from_cartesian(re, im)
     end)
   end
 
   def complex_polar() do
-    {float(min: 0), float()}
+    {float(min: 0, max: 100), float(min: -:math.pi(), max: :math.pi())}
     |> filter(fn {angle, mag} ->
       angle != 0 or mag != 0
     end)
@@ -23,6 +23,13 @@ defmodule ComplexPropertyTest do
       {1, complex_cartesian()},
       {1, complex_polar()}
     ])
+  end
+
+  def nonzero_complex() do
+    complex()
+    |> filter(fn z ->
+      not (Complex.real(z) == 0 && Complex.imaginary(z) == 0)
+    end)
   end
 
   def number() do
@@ -152,6 +159,114 @@ defmodule ComplexPropertyTest do
       quotient = Complex.divide(z1, z2)
 
       assert is_number(Complex.imaginary(quotient))
+    end
+  end
+
+  property "finding the sine of a complex number results in another complex number" do
+    check all z1 <- number() do
+      result = Complex.sin(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arcsine of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.asin(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the cosine of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.cos(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arccosine of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.acos(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the tangent of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.tan(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arctangent of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.atan(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the cosecant of a complex number results in another complex number" do
+    check all z1 <- nonzero_complex() do
+      result = Complex.csc(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arccosecant of a complex number results in another complex number" do
+    check all z1 <- nonzero_complex() do
+      result = Complex.acsc(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the secant of a complex number results in another complex number" do
+    check all z1 <- complex() do
+      result = Complex.sec(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arcsecant of a complex number results in another complex number" do
+    check all z1 <- nonzero_complex() do
+      result = Complex.asec(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the cotangent of a complex number results in another complex number" do
+    check all z1 <- nonzero_complex() do
+      result = Complex.cot(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
+    end
+  end
+
+  property "finding the arccotangent of a complex number results in another complex number" do
+    check all z1 <- nonzero_complex() do
+      result = Complex.acot(z1)
+
+      assert is_number(Complex.real(result))
+      assert is_number(Complex.imaginary(result))
     end
   end
 
