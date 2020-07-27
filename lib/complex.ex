@@ -707,6 +707,33 @@ defmodule Complex do
     )
   end
 
+  @doc """
+  Find the hyperbolic secant of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sech() |> inspect()
+      "0.26580222883407967+j6.276086557791839e-17"
+  """
+  def sech(z) do
+    sec(multiply(i(), z))
+  end
+
+  @doc """
+  Find the hyperbolic cotangent of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.coth() |> inspect()
+      "-1.0373147207275482-j1.8619978115303712e-17"
+  """
+  def coth(z) do
+    multiply(
+      i(),
+      cot(multiply(i(), z))
+    )
+  end
+
   @doc false
   def inspect(comp, opts) do
     case Keyword.get(opts.custom_options, :complex, :cartesian) do
