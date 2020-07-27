@@ -692,6 +692,21 @@ defmodule Complex do
     )
   end
 
+  @doc """
+  Find the hyperbolic cosecant of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.csch() |> inspect()
+      "-0.27572056477178325-j7.005200143346713e-17"
+  """
+  def csch(z) do
+    multiply(
+      i(),
+      csc(multiply(i(), z))
+    )
+  end
+
   @doc false
   def inspect(comp, opts) do
     case Keyword.get(opts.custom_options, :complex, :cartesian) do
