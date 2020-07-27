@@ -666,21 +666,6 @@ defmodule Complex do
   end
 
   @doc """
-  Find the inverse hyperbolic sine of a complex number.
-
-  ## Examples
-
-      iex> Complex.from_polar(2, :math.pi()) |> Complex.sinh() |> inspect()
-      "-3.6268604078470186+j9.214721821703068e-16"
-  """
-  def sinh(z) do
-    multiply(
-      negate(i()),
-      sin(multiply(i(), z))
-    )
-  end
-
-  @doc """
   Find the hyperbolic cosine of a complex number.
 
   ## Examples
