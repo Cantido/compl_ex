@@ -650,6 +650,62 @@ defmodule Complex do
     atan(divide(1, z))
   end
 
+  @doc """
+  Find the hyperbolic sine of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sinh() |> inspect()
+      "-3.6268604078470186+j9.214721821703068e-16"
+  """
+  def sinh(z) do
+    multiply(
+      negate(i()),
+      sin(multiply(i(), z))
+    )
+  end
+
+  @doc """
+  Find the inverse hyperbolic sine of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.sinh() |> inspect()
+      "-3.6268604078470186+j9.214721821703068e-16"
+  """
+  def sinh(z) do
+    multiply(
+      negate(i()),
+      sin(multiply(i(), z))
+    )
+  end
+
+  @doc """
+  Find the hyperbolic cosine of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.cosh() |> inspect()
+      "3.7621956910836314-j8.88324597884823e-16"
+  """
+  def cosh(z) do
+    cos(multiply(i(), z))
+  end
+
+  @doc """
+  Find the hyperbolic tangent of a complex number.
+
+  ## Examples
+
+      iex> Complex.from_polar(2, :math.pi()) |> Complex.tanh() |> inspect()
+      "-0.9640275800758168+j1.730446130270963e-17"
+  """
+  def tanh(z) do
+    multiply(
+      negate(i()),
+      tan(multiply(i(), z))
+    )
+  end
 
   @doc false
   def inspect(comp, opts) do
