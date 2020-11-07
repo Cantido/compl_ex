@@ -834,6 +834,84 @@ defmodule Complex do
     )
   end
 
+  @doc """
+  The Riemann zeta function.
+
+  Uses the Dirichlet series to compute,
+  but that still only keeps us accurate to within 1e-12 for small integers,
+  at which point values differ.
+
+  ## Examples
+
+      iex> Complex.from_cartesian(2, 3) |> Complex.zeta() |> inspect()
+      "0.7980219851464194-j0.11374430805307403"
+
+      iex> Complex.from_cartesian(1, 0) |> Complex.zeta()
+      :infinity
+
+      iex> Complex.zeta(3)
+      1.2020569031595465
+
+      iex> Complex.zeta(4)
+      1.0823232337111315
+
+      iex> Complex.zeta(0)
+      -0.49999679486880155
+
+  """
+  def zeta(z)
+
+  def zeta(z) do
+    if magnitude(z) == 1 and angle(z) == 0 do
+      :infinity
+    else
+      do_zeta(z)
+    end
+  end
+
+  defp do_zeta(z) do
+    sum =
+      converging_infinite_sum(fn n ->
+        a = (n * (n + 1)) / 2
+        b = divide(add((2 * n) + 3, z), pow(n + 1, add(z, 2)))
+        c = divide(subtract((2 * n) - 1, z), pow(n, add(z, 2)))
+        multiply(a, subtract(b, c))
+      end)
+
+    coeff = invert(subtract(z, 1))
+
+    multiply(coeff, sum)
+  end
+
+  @doc """
+  An alias for `zeta/1`
+
+  ## Examples
+
+      iex> Complex.ζ(3)
+      1.2020569031595465
+  """
+  def ζ(z) do
+    zeta(z)
+  end
+
+  defp converging_infinite_sum(f) do
+    converging_infinite_sum_loop(f, 1, 0)
+  end
+
+  defp converging_infinite_sum_loop(f, n, acc) do
+    next = f.(n)
+
+    if magnitude(next) < 0.0000000000000001 do
+      add(acc, next)
+    else
+      next_acc = add(acc, next)
+
+      next_n = n + 1
+      converging_infinite_sum_loop(f, next_n, next_acc)
+    end
+  end
+
   @doc false
   def inspect(comp, opts) do
     case Keyword.get(opts.custom_options, :complex, :cartesian) do
