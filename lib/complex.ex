@@ -503,6 +503,32 @@ defmodule Complex do
   end
 
   @doc """
+  Find the value of a complex number raised to the power of another complex value.
+
+  Complex exponents are multivalued.
+  This function finds the principal value.
+
+  ## Examples
+
+      iex> a = Complex.from_cartesian(2, 3)
+      ...> Complex.pow(a, 2) |> inspect()
+      "-5.0+j12.0"
+
+      iex> Complex.pow(2, 3)
+      8.0
+  """
+  def pow(z, w)
+
+  def pow(z, w) when is_number(z) and is_number(w) do
+    :math.pow(z, w)
+  end
+
+  def pow(z, w) do
+    exp(multiply(w, ln(z)))
+  end
+
+
+  @doc """
   Find the sine of a complex number.
 
   ## Example
