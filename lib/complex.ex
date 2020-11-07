@@ -383,6 +383,9 @@ defmodule Complex do
   @doc """
   Find the natural log of a complex number.
 
+  The natural log of a complex number is multivalued.
+  This function finds the principal value.
+
   ## Examples
 
       iex> Complex.from_polar(2, :math.pi()) |> Complex.ln() |> inspect()
