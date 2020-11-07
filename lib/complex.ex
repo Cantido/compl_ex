@@ -40,9 +40,9 @@ defmodule Complex do
   - `invert/1`
   - `conjugate/1`
 
-  All arithmetic functions in this library take regular Elixir numbers
-  in place of complex numbers, so you don't have to wrap real numbers to include
-  a zero imaginary part if you don't need to.
+  All arithmetic functions in this library take real numbers in place of complex numbers,
+  so you don't have to wrap real numbers to include a zero imaginary part if you don't need to.
+  This preserves a lot of accuracy if you're dealing with a mix of complex and real numbers.
 
       iex> Complex.from_cartesian(3, 4) |> Complex.add(2) |> inspect()
       "5+j4"
@@ -365,6 +365,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.exp() |> inspect()
       "0.1353352832366127+j3.3147584285483636e-17"
   """
+  def exp(z)
+
+  def exp(z) when is_number(z) do
+    :math.exp(z)
+  end
+
   def exp(z) do
     exp = :math.exp(real(z))
     im = imaginary(z)
@@ -407,6 +413,10 @@ defmodule Complex do
   """
   def add(z1, z2)
 
+  def add(z1, z2) when is_number(z1) and is_number(z2) do
+    z1 + z2
+  end
+
   def add(z1, z2) do
     from_cartesian(
       real(z1) + real(z2),
@@ -425,6 +435,10 @@ defmodule Complex do
       "2+j2"
   """
   def subtract(z1, z2)
+
+  def subtract(z1, z2) when is_number(z1) and is_number(z2) do
+    z1 - z2
+  end
 
   def subtract(z1, z2) do
     from_cartesian(
@@ -445,6 +459,10 @@ defmodule Complex do
   """
   def multiply(z1, z2)
 
+  def multiply(z1, z2) when is_number(z1) and is_number(z2) do
+    z1 * z2
+  end
+
   def multiply(z1, z2) do
     real = (real(z1) * real(z2)) - (imaginary(z1) * imaginary(z2))
     imaginary = (real(z1) * imaginary(z2)) + (imaginary(z1) * real(z2))
@@ -462,6 +480,10 @@ defmodule Complex do
       "0.5333333333333333-j0.06666666666666667"
   """
   def divide(z1, z2)
+
+  def divide(z1, z2) when is_number(z1) and is_number(z2) do
+    z1 / z2
+  end
 
   def divide(numerator, denominator) do
     simp_num = multiply(numerator, conjugate(denominator))
@@ -485,6 +507,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.sin() |> inspect()
       "-0.9092974268256817-j1.0192657827055095e-16"
   """
+  def sin(z)
+
+  def sin(z) when is_number(z) do
+    :math.sin(z)
+  end
+
   def sin(z) do
     re = real(z)
     im = imaginary(z)
@@ -523,6 +551,13 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.cos() |> inspect()
       "-0.4161468365471424+j2.2271363664699914e-16"
   """
+
+  def cos(z)
+
+  def cos(z) when is_number(z) do
+    :math.cos(z)
+  end
+
   def cos(z) do
     re = real(z)
     im = imaginary(z)
@@ -541,6 +576,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.acos() |> inspect()
       "3.141592653589794-j1.3169578969248164"
   """
+  def acos(z)
+
+  def acos(z) when is_number(z) do
+    :math.acos(z)
+  end
+
   def acos(z) do
     subtract(:math.pi() / 2, asin(z))
   end
@@ -553,6 +594,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.tan() |> inspect()
       "2.185039863261519+j1.4143199004457915e-15"
   """
+  def tan(z)
+
+  def tan(z) when is_number(z) do
+    :math.tan(z)
+  end
+
   def tan(z) do
     divide(
       sin(z),
@@ -568,6 +615,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.atan() |> inspect()
       "-1.1071487177940904+j0.0"
   """
+  def atan(z)
+
+  def atan(z) when is_number(z) do
+    :math.atan(z)
+  end
+
   def atan(z) do
     multiply(
       divide(i(), 2),
@@ -658,6 +711,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.sinh() |> inspect()
       "-3.6268604078470186+j9.214721821703068e-16"
   """
+  def sinh(z)
+
+  def sinh(z) when is_number(z) do
+    :math.sinh(z)
+  end
+
   def sinh(z) do
     multiply(
       negate(i()),
@@ -673,6 +732,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.cosh() |> inspect()
       "3.7621956910836314-j8.88324597884823e-16"
   """
+  def cosh(z)
+
+  def cosh(z) when is_number(z) do
+    :math.cosh(z)
+  end
+
   def cosh(z) do
     cos(multiply(i(), z))
   end
@@ -685,6 +750,12 @@ defmodule Complex do
       iex> Complex.from_polar(2, :math.pi()) |> Complex.tanh() |> inspect()
       "-0.9640275800758168+j1.730446130270963e-17"
   """
+  def tanh(z)
+
+  def tanh(z) when is_number(z) do
+    :math.tanh(z)
+  end
+
   def tanh(z) do
     multiply(
       negate(i()),
